@@ -267,3 +267,5 @@ for result in results:
 - [Txtai](https://github.com/neuml/txtai)
 
 - [KB MCP Server](https://github.com/Geeksfino/kb-mcp-server)
+
+- [SQLite](https://docs.python.org/3.12/library/sqlite3.html#)
