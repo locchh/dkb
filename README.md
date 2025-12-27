@@ -1,17 +1,20 @@
 # dkb
 
-Summary of Features:
-- ✅ **Add**: Folders, files, strings, text
-- ✅ **Search**: Keyword, tags, path, dates, combined
-- ✅ **Chunking**: By headings, tokens, paragraphs, custom
-- ✅ **AI Context**: Token-aware context assembly
-- ✅ **CRUD**: Full create, read, update, delete
-- ✅ **Export**: llms.txt, markdown, JSON
-- ✅ **Tags**: Add, remove, search by tags
-- ✅ **Filters**: Path patterns, date ranges, tag exclusion
-- ✅ **Stats**: Document counts, token counts, tag counts
-- ✅ **Zero cost**: No external APIs, fully local
-- ✅ **Single file**: Portable .dkb format
+## Features
+- Support CLI
+- Support python API
+- Zero cost: No external APIs, fully local
+- Single file: Portable .dkb format
+- Core functions
+    - **Add**: Folders, files, text
+    - **Search**: Keyword, tags, path, dates, combined
+    - **Chunking**: By headings, tokens, paragraphs, custom
+    - **CRUD**: Full create, read, update, delete
+    - **Export**: folder, file, text
+    - **Tags**: Add, remove, search by tags
+    - **Filters**: Path patterns, date ranges, tag exclusion
+    - **Stats**: Document counts, tag counts
+
 
 ```python
 from dkb import DKB
@@ -66,7 +69,6 @@ results = db.search('authentication')
 results = db.search('machine learning', limit=5)
 
 # Search by tag only
-results = db.find_by_tag('work')
 results = db.find_by_tags(['work', 'important'])  # AND
 results = db.find_by_tags(['python', 'javascript'], match='any')  # OR
 
@@ -93,32 +95,7 @@ results = db.find_by_path('docs/api/*')
 
 
 # ============================================
-# 4. GET CONTEXT FOR AI/LLM
-# ============================================
-
-# Get formatted context for LLM (token-aware)
-context = db.get_context(
-    query='How does authentication work?',
-    max_tokens=2000,
-    format='markdown'  # 'markdown', 'xml', 'json', 'plain'
-)
-
-# Returns formatted string ready for LLM:
-"""
-# Relevant Documents
-
-## docs/authentication.md#jwt-tokens (relevance: 0.95)
-[content - 387 tokens]
-
-## docs/security.md#token-validation (relevance: 0.78)
-[content - 245 tokens]
-
-Total: 632 tokens
-"""
-
-
-# ============================================
-# 5. READ / RETRIEVE
+# 4. READ / RETRIEVE
 # ============================================
 
 # Get single document
@@ -128,7 +105,7 @@ doc = db.get('notes/idea.md')
 all_docs = db.list_documents()
 
 # Find by tag
-docs_by_tag = db.find_by_tag('work')
+docs_by_tag = db.find_by_tags(['work'])
 
 # Get document metadata
 metadata = db.get_metadata('notes/idea.md')
@@ -136,7 +113,7 @@ metadata = db.get_metadata('notes/idea.md')
 
 
 # ============================================
-# 6. UPDATE
+# 5. UPDATE
 # ============================================
 
 # Update document content
@@ -153,7 +130,7 @@ db.update_metadata('notes/idea.md', author='John', priority='high')
 
 
 # ============================================
-# 7. DELETE
+# 6. DELETE
 # ============================================
 
 # Remove single document
@@ -163,18 +140,15 @@ db.remove('notes/idea.md')
 db.remove_by_path('drafts/*')
 
 # Remove by tag
-db.remove_by_tag('archived')
+db.remove_by_tags(['archived'])
 
 # Clear entire database
 db.clear()
 
 
 # ============================================
-# 8. EXPORT
+# 7. EXPORT
 # ============================================
-
-# Export as llms.txt format
-db.export_llms_txt('output.txt')
 
 # Export back to markdown folder
 db.export_markdown('./output_folder')
@@ -185,9 +159,8 @@ db.export_json('knowledge.json')
 # Export specific documents
 db.export_markdown('./output', tags=['important'])
 
-
 # ============================================
-# 9. CHUNKING OPERATIONS
+# 8. CHUNKING OPERATIONS
 # ============================================
 
 # Rechunk existing documents
@@ -203,7 +176,7 @@ chunks = db.get_chunks('docs/api.md')
 
 
 # ============================================
-# 10. UTILITY / STATS
+# 8. UTILITY / STATS
 # ============================================
 
 # Get statistics
@@ -220,7 +193,7 @@ stats = db.stats()
 all_tags = db.list_tags()
 
 # Count documents by tag
-tag_counts = db.count_by_tag()
+tag_counts = db.count_by_tags(['work', 'ideas', 'draft'])
 # Returns: {'work': 45, 'ideas': 23, 'draft': 12}
 
 # Search within results (refine)
@@ -229,7 +202,7 @@ refined = results.filter(tags=['security'])
 
 
 # ============================================
-# 11. CONTEXT MANAGER (Auto-close)
+# 9. CONTEXT MANAGER (Auto-close)
 # ============================================
 
 with DKB('knowledge.dkb') as db:
@@ -239,7 +212,7 @@ with DKB('knowledge.dkb') as db:
 
 
 # ============================================
-# 12. RESULT OBJECT
+# 10. RESULT OBJECT
 # ============================================
 
 results = db.search('authentication', limit=5)
