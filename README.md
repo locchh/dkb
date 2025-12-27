@@ -1,17 +1,36 @@
 # dkb
 
 
+## TODO
+
+- Complete `BaseDocument` class ✅
+
+- Complete `document` module ✅
+
+- Complete `DKB` class 🔥
+
+- Support `chunk` method
+
+- Support `export` method
+
+- Testing Python API
+
+- Support CLI
+
+- Integrate with LLM
+
+
 ## Features
 
-- Support CLI
+- Support CLI
 
-- Support python API
+- Support python API
 
-- Zero cost: No external dependencies, fully local
+- Zero cost: No external dependencies, fully local
 
-- Embedded (in-file) database including in memory and on-disk
+- Embedded (in-file) database including in memory and on-disk
 
-- Core functions
+- Core functions
 
 - **Add**: Folders, files, text
 
@@ -30,19 +49,30 @@
 - **Stats**: Document counts, tag counts
 
 
+## Synopsis
 
-```
-from dkb import DKB,create_dkb, connect_dkb
+
+```python
+
+from dkb import DKB,create_dkb, connect_dkb
+
 
 # ============================================
+
 # 1. CREATE / OPEN DATABASE
+
 # ============================================
+
 
 # Create new knowledge base
-db: DKB = create_dkb('my_knowledge.dkb')
+
+db: DKB = create_dkb('my_knowledge.dkb')
+
 
 # Or connect to existing knowledge base
-db: DKB = connect_dkb('my_knowledge.dkb')
+
+db: DKB = connect_dkb('my_knowledge.dkb')
+
 
 
 # ============================================
@@ -56,17 +86,17 @@ db: DKB = connect_dkb('my_knowledge.dkb')
 
 db.add_folder('./docs')
 
-db.add_folder('./docs', pattern='*.md')
+db.add_folder('./docs', pattern='*.md')
 
 
 # Add single document from file
 
-db.add_document('notes/idea.md', tags=['ideas'])
+db.add_document('notes/idea.md', tags=['ideas'])
 
 
 # Add direct text
 
-db.add_text('Just a thought...', tags=['ideas'])
+db.add_text('Just a thought...', tags=['ideas'])
 
 
 
@@ -84,14 +114,14 @@ results = db.search(query=['authentication'])
 
 # Search with limit
 
-results = db.search(query=['machine learning'], limit=5)
+results = db.search(query=['machine learning'], limit=5)
 
 
 # Search by tag only
 
 results = db.search(tags=['work', 'important']) # AND
 
-results = db.search(tags=['python', 'javascript'], match='any') # OR
+results = db.search(tags=['python', 'javascript'], match='any') # OR
 
 
 # Combined: keyword + tags
@@ -125,7 +155,7 @@ all_docs = db.list_documents()
 
 # Get single document
 
-doc = db.get('notes/idea.md')
+doc = db.get_document('notes/idea.md')
 
 
 # Get document metadata
@@ -145,7 +175,7 @@ metadata = db.get_metadata('notes/idea.md')
 
 # Update document content
 
-db.update('notes/idea.md', content='# Updated content...')
+db.update_document('notes/idea.md', content='# Updated content...')
 
 
 # Add tags
@@ -160,7 +190,7 @@ db.remove_tags('notes/idea.md', ['draft'])
 
 # Update metadata
 
-db.update_metadata('notes/idea.md', metadata={'author': 'John', 'priority': 'high'})
+db.update_metadata('notes/idea.md', metadata={'author': 'John', 'priority': 'high'})
 
 
 
@@ -173,7 +203,7 @@ db.update_metadata('notes/idea.md', metadata={'author': 'John', 'priority': 'hig
 
 # Remove single document
 
-db.remove('notes/idea.md')
+db.remove_document('notes/idea.md')
 
 
 # Remove multiple by pattern
@@ -188,7 +218,7 @@ db.remove_by_tags(['archived'])
 
 # Clear entire database
 
-db.clear()
+db.clear_all()
 
 
 
@@ -206,7 +236,7 @@ db.export('./output_folder')
 
 # Export specific documents
 
-db.export('./output', tags=['important'])
+db.export('./output', tags=['important'])
 
 
 
@@ -301,7 +331,7 @@ with DKB('knowledge.dkb') as db:
 
 db.add_folder('./docs')
 
-results = db.search(query='query', limit=5)
+results = db.search(query='query', limit=5)
 
 # Automatically closes connection
 
@@ -314,22 +344,22 @@ results = db.search(query='query', limit=5)
 # ============================================
 
 
-results = db.search(query='authentication', limit=5)
+results = db.search(query='authentication', limit=5)
 
 
 for result in results:
 
-print(result.path) # "docs/api.md#authentication"
+print(result.metadata['path']) # "docs/api.md#authentication"
 
-print(result.content) # Chunk or full content
+print(result.metadata['content']) # Chunk or full content
 
-print(result.score) # 0.87 (relevance)
+print(result.metadata['score']) # 0.87 (relevance)
 
-print(result.length) # 245
+print(result.metadata['length']) # 245
 
-print(result.tags) # ['backend', 'security']
+print(result.metadata['tags']) # ['backend', 'security']
 
-print(result.metadata) # {created_at, modified_at, ...}
+print(result.metadata['metadata']) # {created_at, modified_at, ...}
 
 ```
 
@@ -338,23 +368,23 @@ print(result.metadata) # {created_at, modified_at, ...}
 ## Related Projects
 
 
-- [LEANN](https://github.com/yichuan-w/LEANN)
+- [LEANN](https://github.com/yichuan-w/LEANN)
 
 
-- [CocoIndex](https://github.com/cocoindex-io/cocoindex)
+- [CocoIndex](https://github.com/cocoindex-io/cocoindex)
 
 
-- [RAGFlow](https://github.com/infiniflow/ragflow)
+- [RAGFlow](https://github.com/infiniflow/ragflow)
 
 
-- [Txtai](https://github.com/neuml/txtai)
+- [Txtai](https://github.com/neuml/txtai)
 
 
-- [KB MCP Server](https://github.com/Geeksfino/kb-mcp-server)
+- [KB MCP Server](https://github.com/Geeksfino/kb-mcp-server)
 
 
-- [SQLite](https://docs.python.org/3.12/library/sqlite3.html#)
+- [SQLite](https://docs.python.org/3.12/library/sqlite3.html#)
 
 
-- [KuzuDB](https://kuzudb.github.io/docs/)
+- [KuzuDB](https://kuzudb.github.io/docs/)
 
