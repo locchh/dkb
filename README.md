@@ -31,20 +31,18 @@
 
 
 
-```python
-
-from dkb import DKB
-
+```
+from dkb import DKB,create_dkb, connect_dkb
 
 # ============================================
-
 # 1. CREATE / OPEN DATABASE
-
 # ============================================
 
+# Create new knowledge base
+db: DKB = create_dkb('my_knowledge.dkb')
 
-db = DKB('my_knowledge.dkb')
-
+# Or connect to existing knowledge base
+db: DKB = connect_dkb('my_knowledge.dkb')
 
 
 # ============================================
